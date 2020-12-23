@@ -4,7 +4,7 @@
     {
         public const string LocalizationSourceName = "MyBlog";
 
-        public const string ConnectionStringName = "Default";
+        public const string ConnectionStringName = "Sqlite";
 
         public const bool MultiTenancyEnabled = true;
     }
