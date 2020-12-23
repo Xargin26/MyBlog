@@ -7,28 +7,55 @@ trigger:
 - main
 
 pool:
-  vmImage: 'windows-latest'
+  #vmImage: 'windows-latest'
+  vmImage: 'ubuntu-18.04'
 
 variables:
   solution: '**/*.sln'
+  project: 'aspnet-core/MyBlog.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
-    restoreSolution: '$(solution)'
+    projects: '$(solution)'
+    command: 'restore'
+    feedsToUse: 'select'
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    projects: '$(solution)'
+    command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
+  displayName: 'dotnet build $(buildConfiguration)'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'publish'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    publishWebProjects: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'MyBlog'
+#- task: NuGetToolInstaller@1
+
+#- task: NuGetCommand@2
+#  inputs:
+#    restoreSolution: '$(solution)'
+
+#- task: VSBuild@1
+#  inputs:
+#    solution: '$(solution)'
+#    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
+
+#- task: VSTest@2
+#  inputs:
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
+
+
