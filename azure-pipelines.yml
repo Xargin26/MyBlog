@@ -8,7 +8,7 @@ trigger:
 
 pool:
   #vmImage: 'windows-latest'
-  vmImage: 'ubuntu-latest'
+  vmImage: 'centos-latest'
 
 variables:
   solution: '**/*.sln'
