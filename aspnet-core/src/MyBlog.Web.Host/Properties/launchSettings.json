@@ -18,11 +18,11 @@
     "MyBlog.Web.Host": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://*:5003",
+      "launchUrl": "http://localhost:21021",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://*:5004/"
+      "applicationUrl": "http://localhost:21021/"
     }
   }
 }
