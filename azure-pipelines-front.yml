@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-18.04'
 
 steps:
 - task: NodeTool@0
@@ -16,6 +16,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    ls
+    cd ./reactjs
     npm install
     npm run build
   displayName: 'npm install and build'
