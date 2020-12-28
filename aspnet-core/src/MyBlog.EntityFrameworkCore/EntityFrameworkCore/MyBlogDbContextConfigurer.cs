@@ -10,8 +10,8 @@ namespace MyBlog.EntityFrameworkCore
         public static void Configure(DbContextOptionsBuilder<MyBlogDbContext> builder, string connectionString)
         {
             //builder.UseSqlServer(connectionString);
-            var realConnectionString = Environment.GetEnvironmentVariable(connectionString, RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process);
-            builder.UseMySql(realConnectionString, new MySqlServerVersion(new Version(8, 0, 21)));
+            //var realConnectionString = Environment.GetEnvironmentVariable(connectionString, RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process);
+            builder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21)));
             //builder.UseSqlite(connectionString.Replace("=","=" + AppContext.BaseDirectory));
         }
 

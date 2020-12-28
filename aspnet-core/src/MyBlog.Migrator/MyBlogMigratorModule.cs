@@ -6,6 +6,8 @@ using Abp.Reflection.Extensions;
 using MyBlog.Configuration;
 using MyBlog.EntityFrameworkCore;
 using MyBlog.Migrator.DependencyInjection;
+using System;
+using System.Runtime.InteropServices;
 
 namespace MyBlog.Migrator
 {
@@ -25,8 +27,11 @@ namespace MyBlog.Migrator
 
         public override void PreInitialize()
         {
-            Configuration.DefaultNameOrConnectionString = _appConfiguration.GetConnectionString(
-                MyBlogConsts.ConnectionStringName
+            Configuration.DefaultNameOrConnectionString = Environment.GetEnvironmentVariable(
+                _appConfiguration.GetConnectionString(
+                    MyBlogConsts.ConnectionStringName
+                )
+                , RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process
             );
 
             Configuration.BackgroundJobs.IsJobExecutionEnabled = false;

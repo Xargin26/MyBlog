@@ -13,6 +13,7 @@ using MyBlog.Authentication.JwtBearer;
 using MyBlog.Configuration;
 using MyBlog.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using System.Runtime.InteropServices;
 
 namespace MyBlog
 {
@@ -35,9 +36,13 @@ namespace MyBlog
 
         public override void PreInitialize()
         {
-            Configuration.DefaultNameOrConnectionString = _appConfiguration.GetConnectionString(
-                MyBlogConsts.ConnectionStringName
+            Configuration.DefaultNameOrConnectionString = Environment.GetEnvironmentVariable(
+                _appConfiguration.GetConnectionString(
+                    MyBlogConsts.ConnectionStringName
+                )
+                , RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process
             );
+            Logger.Debug("fuck:" + Configuration.DefaultNameOrConnectionString);
 
             // Use database for language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
